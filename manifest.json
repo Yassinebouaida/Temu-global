@@ -1,0 +1,22 @@
+{
+    "name": "مدير طلبات Temu",
+    "short_name": "TemuManager",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#1e3c72",
+    "theme_color": "#1e3c72",
+    "lang": "ar",
+    "dir": "rtl",
+    "icons": [
+        {
+            "src": "192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
