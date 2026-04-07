@@ -3,114 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>مدير طلبات Temu 3D</title>
+    <title>مدير طلبات Temu | بروفيشنال</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3c72">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="stylesheet" href="style.css">
-    <!-- Dexie.js -->
     <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js"></script>
-    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <div class="app-container">
         <nav class="bottom-nav">
-            <button class="nav-btn active" data-page="dashboard">
-                <i class="fas fa-chart-line"></i>
-                <span>الرئيسية</span>
-            </button>
-            <button class="nav-btn" data-page="batches">
-                <i class="fas fa-layer-group"></i>
-                <span>الدفعات</span>
-            </button>
-            <button class="nav-btn" data-page="orders">
-                <i class="fas fa-shopping-cart"></i>
-                <span>الطلبات</span>
-            </button>
-            <button class="nav-btn" data-page="sorting">
-                <i class="fas fa-boxes"></i>
-                <span>تفريق</span>
-            </button>
-            <button class="nav-btn" data-page="add-order">
-                <i class="fas fa-plus-circle"></i>
-                <span>إضافة</span>
-            </button>
+            <button class="nav-btn active" data-page="dashboard"><i class="fas fa-chart-line"></i><span>الرئيسية</span></button>
+            <button class="nav-btn" data-page="batches"><i class="fas fa-layer-group"></i><span>الدفعات</span></button>
+            <button class="nav-btn" data-page="orders"><i class="fas fa-shopping-cart"></i><span>الطلبات</span></button>
+            <button class="nav-btn" data-page="sorting"><i class="fas fa-boxes"></i><span>تفريق</span></button>
+            <button class="nav-btn" data-page="add-order"><i class="fas fa-plus-circle"></i><span>إضافة</span></button>
         </nav>
 
         <main class="main-content">
-            <!-- Dashboard -->
+            <!-- dashboard -->
             <div id="dashboard-page" class="page active">
                 <h2><i class="fas fa-tachometer-alt"></i> لوحة التحكم</h2>
                 <div class="stats-grid-3d">
-                    <div class="stat-card-3d">
-                        <i class="fas fa-layer-group"></i>
-                        <span id="stat-batches">0</span>
-                        <label>الدفعات</label>
-                    </div>
-                    <div class="stat-card-3d">
-                        <i class="fas fa-truck"></i>
-                        <span id="stat-orders">0</span>
-                        <label>الطلبات</label>
-                    </div>
-                    <div class="stat-card-3d">
-                        <i class="fas fa-check-circle"></i>
-                        <span id="stat-delivered">0</span>
-                        <label>مُسلّم</label>
-                    </div>
-                    <div class="stat-card-3d">
-                        <i class="fas fa-dollar-sign"></i>
-                        <span id="stat-profit">0</span>
-                        <label>إجمالي الربح</label>
-                    </div>
+                    <div class="stat-card-3d"><i class="fas fa-layer-group"></i><span id="stat-batches">0</span><label>الدفعات</label></div>
+                    <div class="stat-card-3d"><i class="fas fa-truck"></i><span id="stat-orders">0</span><label>الطلبات</label></div>
+                    <div class="stat-card-3d"><i class="fas fa-check-circle"></i><span id="stat-delivered">0</span><label>مُسلّم</label></div>
+                    <div class="stat-card-3d"><i class="fas fa-dollar-sign"></i><span id="stat-profit">0</span><label>إجمالي الربح</label></div>
                 </div>
-
                 <div class="monthly-analysis-3d">
                     <h3><i class="fas fa-chart-simple"></i> تحليل الشهر (ثلاثي الأبعاد)</h3>
                     <div class="analysis-cards">
-                        <div class="analysis-card">
-                            <i class="fas fa-calendar-alt"></i>
-                            <div class="analysis-title">أرباح هذا الشهر</div>
-                            <div class="analysis-value" id="monthProfit">0</div>
-                            <div class="analysis-sub">دينار</div>
-                        </div>
-                        <div class="analysis-card">
-                            <i class="fas fa-shopping-bag"></i>
-                            <div class="analysis-title">طلبات الشهر</div>
-                            <div class="analysis-value" id="monthOrders">0</div>
-                            <div class="analysis-sub">طلب</div>
-                        </div>
-                        <div class="analysis-card">
-                            <i class="fas fa-star"></i>
-                            <div class="analysis-title">أفضل زبون</div>
-                            <div class="analysis-value" id="topCustomer">-</div>
-                            <div class="analysis-sub">الأكثر طلباً</div>
-                        </div>
+                        <div class="analysis-card"><i class="fas fa-calendar-alt"></i><div class="analysis-title">أرباح هذا الشهر</div><div class="analysis-value" id="monthProfit">0</div><div class="analysis-sub">دينار</div></div>
+                        <div class="analysis-card"><i class="fas fa-shopping-bag"></i><div class="analysis-title">طلبات الشهر</div><div class="analysis-value" id="monthOrders">0</div><div class="analysis-sub">طلب</div></div>
+                        <div class="analysis-card"><i class="fas fa-star"></i><div class="analysis-title">أفضل زبون</div><div class="analysis-value" id="topCustomer">-</div><div class="analysis-sub">الأكثر طلباً</div></div>
                     </div>
-                    <div class="chart-container">
-                        <canvas id="monthlyProfitChart"></canvas>
-                    </div>
+                    <div class="chart-container"><canvas id="monthlyProfitChart"></canvas></div>
                 </div>
-
-                <div class="recent-batches">
-                    <h3>آخر الدفعات</h3>
-                    <div id="recent-batches-list"></div>
-                </div>
+                <div class="recent-batches"><h3>آخر الدفعات</h3><div id="recent-batches-list"></div></div>
             </div>
 
-            <!-- Batches -->
+            <!-- batches -->
             <div id="batches-page" class="page">
-                <div class="page-header">
-                    <h2><i class="fas fa-layer-group"></i> الدفعات</h2>
-                    <button id="newBatchBtn" class="btn-primary-3d"><i class="fas fa-plus"></i> دفعة جديدة</button>
-                </div>
+                <div class="page-header"><h2><i class="fas fa-layer-group"></i> الدفعات</h2><button id="newBatchBtn" class="btn-primary-3d"><i class="fas fa-plus"></i> دفعة جديدة</button></div>
                 <div id="batches-list"></div>
             </div>
 
-            <!-- Orders -->
+            <!-- orders -->
             <div id="orders-page" class="page">
                 <h2><i class="fas fa-list"></i> جميع الطلبات</h2>
                 <div class="filters">
@@ -122,55 +63,34 @@
                 <div id="orders-list-container"></div>
             </div>
 
-            <!-- Sorting -->
+            <!-- sorting -->
             <div id="sorting-page" class="page">
                 <h2><i class="fas fa-boxes"></i> تفريق الطلبات</h2>
-                <div class="form-group">
-                    <label>اختر الدفعة:</label>
-                    <select id="sortingBatchSelect"></select>
-                </div>
+                <div class="form-group"><label>اختر الدفعة:</label><select id="sortingBatchSelect"></select></div>
                 <div id="sortingOrdersList"></div>
             </div>
 
-            <!-- Add Order -->
+            <!-- add order -->
             <div id="add-order-page" class="page">
                 <h2><i class="fas fa-plus-circle"></i> إضافة طلب جديد</h2>
                 <form id="orderForm">
-                    <div class="form-group">
-                        <label>الدفعة:</label>
-                        <select id="orderBatch" required></select>
-                        <button type="button" id="gotoBatches" class="small-btn-3d">إدارة الدفعات</button>
-                    </div>
+                    <div class="form-group"><label>الدفعة:</label><select id="orderBatch" required></select><button type="button" id="gotoBatches" class="small-btn-3d">إدارة الدفعات</button></div>
                     <div class="form-group"><label>اسم الزبون *</label><input type="text" id="customerName" required></div>
                     <div class="form-group"><label>رقم الهاتف</label><input type="tel" id="customerPhone"></div>
                     <div class="form-group"><label>المدينة</label><input type="text" id="customerCity"></div>
                     <div class="form-group"><label>ملاحظات</label><textarea id="customerNotes" rows="2"></textarea></div>
                     <div class="form-group"><label>المنتجات (وصف)</label><textarea id="productDesc" rows="2" placeholder="وصف المنتجات"></textarea></div>
-                    <div class="form-group"><label>سعر الشراء (للمنتجات) *</label><input type="number" id="purchasePrice" step="0.01" required></div>
-                    <div class="form-group"><label>سعر البيع (للزبون) *</label><input type="number" id="sellingPrice" step="0.01" required></div>
+                    <div class="form-group"><label>سعر الشراء *</label><input type="number" id="purchasePrice" step="0.01" required></div>
+                    <div class="form-group"><label>سعر البيع *</label><input type="number" id="sellingPrice" step="0.01" required></div>
                     <div class="form-group"><label>مصاريف التوصيل</label><input type="number" id="deliveryCost" step="0.01" value="0"></div>
-                    <div class="form-group"><label>صور المنتج (حتى 5 صور)</label>
-                        <input type="file" id="orderImages" accept="image/*" multiple>
-                        <div id="imagePreviewContainer" class="image-preview-grid"></div>
-                    </div>
+                    <div class="form-group"><label>صور المنتج (حتى 5 صور)</label><input type="file" id="orderImages" accept="image/*" multiple><div id="imagePreviewContainer" class="image-preview-grid"></div></div>
                     <button type="submit" class="btn-primary-3d">حفظ الطلب</button>
                 </form>
             </div>
         </main>
     </div>
-
-    <div id="imageModal" class="modal">
-        <span class="close-modal">&times;</span>
-        <img class="modal-content" id="modalImage">
-    </div>
-
+    <div id="imageModal" class="modal"><span class="close-modal">&times;</span><img class="modal-content" id="modalImage"></div>
     <script src="script.js"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-            .then(reg => console.log('Service Worker registered', reg))
-            .catch(err => console.error('SW failed', err));
-        }
-    </script>
+    <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');</script>
 </body>
 </html>
