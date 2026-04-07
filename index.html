@@ -3,265 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    
-    <!-- CSP للأمان -->
-    <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self';
-        script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com;
-        style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
-        font-src 'self' https://cdnjs.cloudflare.com;
-        img-src 'self' blob: data:;
-        connect-src 'self';
-        manifest-src 'self';
-    ">
-    
     <title>مدير طلبات Temu 3D</title>
-    <meta name="description" content="تطبيق لإدارة طلبات التجارة الإلكترونية">
-    
-    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3c72">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    
-    <!-- Preconnect للأداء -->
-    <link rel="preconnect" href="https://unpkg.com">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Dexie.js -->
     <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js"></script>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <div class="app-container">
-        <nav class="bottom-nav" role="navigation" aria-label="التنقل الرئيسي">
-            <button class="nav-btn active" data-page="dashboard" aria-label="لوحة التحكم" aria-current="page">
-                <i class="fas fa-chart-line" aria-hidden="true"></i>
+        <nav class="bottom-nav">
+            <button class="nav-btn active" data-page="dashboard">
+                <i class="fas fa-chart-line"></i>
                 <span>الرئيسية</span>
             </button>
-            <button class="nav-btn" data-page="batches" aria-label="الدفعات">
-                <i class="fas fa-layer-group" aria-hidden="true"></i>
+            <button class="nav-btn" data-page="batches">
+                <i class="fas fa-layer-group"></i>
                 <span>الدفعات</span>
             </button>
-            <button class="nav-btn" data-page="orders" aria-label="الطلبات">
-                <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+            <button class="nav-btn" data-page="orders">
+                <i class="fas fa-shopping-cart"></i>
                 <span>الطلبات</span>
             </button>
-            <button class="nav-btn" data-page="sorting" aria-label="تفريق الطلبات">
-                <i class="fas fa-boxes" aria-hidden="true"></i>
+            <button class="nav-btn" data-page="sorting">
+                <i class="fas fa-boxes"></i>
                 <span>تفريق</span>
             </button>
-            <button class="nav-btn" data-page="add-order" aria-label="إضافة طلب">
-                <i class="fas fa-plus-circle" aria-hidden="true"></i>
+            <button class="nav-btn" data-page="add-order">
+                <i class="fas fa-plus-circle"></i>
                 <span>إضافة</span>
             </button>
         </nav>
 
-        <main class="main-content" role="main">
-            
-            <!-- Dashboard Page -->
-            <section id="dashboard-page" class="page active" aria-labelledby="dashboard-title">
-                <h2 id="dashboard-title"><i class="fas fa-tachometer-alt" aria-hidden="true"></i> لوحة التحكم</h2>
-                
-                <div class="stats-grid-3d" role="region" aria-label="الإحصائيات">
-                    <article class="stat-card-3d" tabindex="0">
-                        <i class="fas fa-layer-group" aria-hidden="true"></i>
-                        <span id="stat-batches" aria-live="polite">0</span>
+        <main class="main-content">
+            <!-- Dashboard -->
+            <div id="dashboard-page" class="page active">
+                <h2><i class="fas fa-tachometer-alt"></i> لوحة التحكم</h2>
+                <div class="stats-grid-3d">
+                    <div class="stat-card-3d">
+                        <i class="fas fa-layer-group"></i>
+                        <span id="stat-batches">0</span>
                         <label>الدفعات</label>
-                    </article>
-                    <article class="stat-card-3d" tabindex="0">
-                        <i class="fas fa-truck" aria-hidden="true"></i>
-                        <span id="stat-orders" aria-live="polite">0</span>
+                    </div>
+                    <div class="stat-card-3d">
+                        <i class="fas fa-truck"></i>
+                        <span id="stat-orders">0</span>
                         <label>الطلبات</label>
-                    </article>
-                    <article class="stat-card-3d" tabindex="0">
-                        <i class="fas fa-check-circle" aria-hidden="true"></i>
-                        <span id="stat-delivered" aria-live="polite">0</span>
+                    </div>
+                    <div class="stat-card-3d">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="stat-delivered">0</span>
                         <label>مُسلّم</label>
-                    </article>
-                    <article class="stat-card-3d" tabindex="0">
-                        <i class="fas fa-dollar-sign" aria-hidden="true"></i>
-                        <span id="stat-profit" aria-live="polite">0</span>
+                    </div>
+                    <div class="stat-card-3d">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span id="stat-profit">0</span>
                         <label>إجمالي الربح</label>
-                    </article>
+                    </div>
                 </div>
 
-                <section class="monthly-analysis-3d" aria-labelledby="analysis-title">
-                    <h3 id="analysis-title"><i class="fas fa-chart-simple" aria-hidden="true"></i> تحليل الشهر</h3>
+                <div class="monthly-analysis-3d">
+                    <h3><i class="fas fa-chart-simple"></i> تحليل الشهر (ثلاثي الأبعاد)</h3>
                     <div class="analysis-cards">
-                        <article class="analysis-card">
-                            <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                        <div class="analysis-card">
+                            <i class="fas fa-calendar-alt"></i>
                             <div class="analysis-title">أرباح هذا الشهر</div>
-                            <div class="analysis-value" id="monthProfit" aria-live="polite">0</div>
+                            <div class="analysis-value" id="monthProfit">0</div>
                             <div class="analysis-sub">دينار</div>
-                        </article>
-                        <article class="analysis-card">
-                            <i class="fas fa-shopping-bag" aria-hidden="true"></i>
+                        </div>
+                        <div class="analysis-card">
+                            <i class="fas fa-shopping-bag"></i>
                             <div class="analysis-title">طلبات الشهر</div>
-                            <div class="analysis-value" id="monthOrders" aria-live="polite">0</div>
+                            <div class="analysis-value" id="monthOrders">0</div>
                             <div class="analysis-sub">طلب</div>
-                        </article>
-                        <article class="analysis-card">
-                            <i class="fas fa-star" aria-hidden="true"></i>
+                        </div>
+                        <div class="analysis-card">
+                            <i class="fas fa-star"></i>
                             <div class="analysis-title">أفضل زبون</div>
-                            <div class="analysis-value" id="topCustomer" aria-live="polite">-</div>
+                            <div class="analysis-value" id="topCustomer">-</div>
                             <div class="analysis-sub">الأكثر طلباً</div>
-                        </article>
+                        </div>
                     </div>
                     <div class="chart-container">
-                        <canvas id="monthlyProfitChart" aria-label="رسم بياني للأرباح"></canvas>
+                        <canvas id="monthlyProfitChart"></canvas>
                     </div>
-                </section>
+                </div>
 
-                <section class="recent-batches" aria-labelledby="recent-title">
-                    <h3 id="recent-title">آخر الدفعات</h3>
-                    <div id="recent-batches-list" role="list"></div>
-                </section>
-            </section>
+                <div class="recent-batches">
+                    <h3>آخر الدفعات</h3>
+                    <div id="recent-batches-list"></div>
+                </div>
+            </div>
 
-            <!-- Batches Page -->
-            <section id="batches-page" class="page" aria-labelledby="batches-title">
+            <!-- Batches -->
+            <div id="batches-page" class="page">
                 <div class="page-header">
-                    <h2 id="batches-title"><i class="fas fa-layer-group" aria-hidden="true"></i> الدفعات</h2>
-                    <button id="newBatchBtn" class="btn-primary-3d" aria-label="إنشاء دفعة جديدة">
-                        <i class="fas fa-plus" aria-hidden="true"></i> دفعة جديدة
-                    </button>
+                    <h2><i class="fas fa-layer-group"></i> الدفعات</h2>
+                    <button id="newBatchBtn" class="btn-primary-3d"><i class="fas fa-plus"></i> دفعة جديدة</button>
                 </div>
-                <div id="batches-list" role="list" aria-label="قائمة الدفعات"></div>
-            </section>
+                <div id="batches-list"></div>
+            </div>
 
-            <!-- Orders Page -->
-            <section id="orders-page" class="page" aria-labelledby="orders-title">
-                <h2 id="orders-title"><i class="fas fa-list" aria-hidden="true"></i> جميع الطلبات</h2>
-                
-                <div class="filters" role="search" aria-label="فلترة الطلبات">
-                    <select id="filterBatch" aria-label="فلترة حسب الدفعة">
-                        <option value="">كل الدفعات</option>
-                    </select>
-                    <select id="filterStatus" aria-label="فلترة حسب الحالة">
-                        <option value="">كل الحالات</option>
-                        <option value="pending">تم الطلب</option>
-                        <option value="shipping">في الشحن</option>
-                        <option value="arrived">وصل</option>
-                        <option value="sorted">تم التفريق</option>
-                        <option value="delivered">تم التسليم</option>
-                        <option value="cancelled">ملغي</option>
-                    </select>
-                    <input type="text" id="filterCustomer" placeholder="بحث بالزبون" aria-label="بحث باسم الزبون">
-                    <button id="clearFilters" class="btn-secondary-3d" aria-label="مسح الفلاتر">
-                        <i class="fas fa-eraser" aria-hidden="true"></i> مسح
-                    </button>
+            <!-- Orders -->
+            <div id="orders-page" class="page">
+                <h2><i class="fas fa-list"></i> جميع الطلبات</h2>
+                <div class="filters">
+                    <select id="filterBatch"><option value="">كل الدفعات</option></select>
+                    <select id="filterStatus"><option value="">كل الحالات</option></select>
+                    <input type="text" id="filterCustomer" placeholder="بحث بالزبون">
+                    <button id="clearFilters" class="btn-secondary-3d"><i class="fas fa-eraser"></i> مسح</button>
                 </div>
-                
-                <div id="orders-list-container" role="list" aria-label="قائمة الطلبات"></div>
-            </section>
+                <div id="orders-list-container"></div>
+            </div>
 
-            <!-- Sorting Page -->
-            <section id="sorting-page" class="page" aria-labelledby="sorting-title">
-                <h2 id="sorting-title"><i class="fas fa-boxes" aria-hidden="true"></i> تفريق الطلبات</h2>
+            <!-- Sorting -->
+            <div id="sorting-page" class="page">
+                <h2><i class="fas fa-boxes"></i> تفريق الطلبات</h2>
                 <div class="form-group">
-                    <label for="sortingBatchSelect">اختر الدفعة:</label>
-                    <select id="sortingBatchSelect" aria-label="اختيار الدفعة للتفريق"></select>
+                    <label>اختر الدفعة:</label>
+                    <select id="sortingBatchSelect"></select>
                 </div>
-                <div id="sortingOrdersList" role="list" aria-label="طلبات للتفريق"></div>
-            </section>
+                <div id="sortingOrdersList"></div>
+            </div>
 
-            <!-- Add Order Page -->
-            <section id="add-order-page" class="page" aria-labelledby="add-order-title">
-                <h2 id="add-order-title"><i class="fas fa-plus-circle" aria-hidden="true"></i> إضافة طلب جديد</h2>
-                
-                <form id="orderForm" novalidate>
+            <!-- Add Order -->
+            <div id="add-order-page" class="page">
+                <h2><i class="fas fa-plus-circle"></i> إضافة طلب جديد</h2>
+                <form id="orderForm">
                     <div class="form-group">
-                        <label for="orderBatch">الدفعة: *</label>
-                        <select id="orderBatch" required aria-required="true">
-                            <option value="">اختر دفعة</option>
-                        </select>
+                        <label>الدفعة:</label>
+                        <select id="orderBatch" required></select>
                         <button type="button" id="gotoBatches" class="small-btn-3d">إدارة الدفعات</button>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="customerName">اسم الزبون *</label>
-                        <input type="text" id="customerName" required aria-required="true" autocomplete="name" maxlength="100">
+                    <div class="form-group"><label>اسم الزبون *</label><input type="text" id="customerName" required></div>
+                    <div class="form-group"><label>رقم الهاتف</label><input type="tel" id="customerPhone"></div>
+                    <div class="form-group"><label>المدينة</label><input type="text" id="customerCity"></div>
+                    <div class="form-group"><label>ملاحظات</label><textarea id="customerNotes" rows="2"></textarea></div>
+                    <div class="form-group"><label>المنتجات (وصف)</label><textarea id="productDesc" rows="2" placeholder="وصف المنتجات"></textarea></div>
+                    <div class="form-group"><label>سعر الشراء (للمنتجات) *</label><input type="number" id="purchasePrice" step="0.01" required></div>
+                    <div class="form-group"><label>سعر البيع (للزبون) *</label><input type="number" id="sellingPrice" step="0.01" required></div>
+                    <div class="form-group"><label>مصاريف التوصيل</label><input type="number" id="deliveryCost" step="0.01" value="0"></div>
+                    <div class="form-group"><label>صور المنتج (حتى 5 صور)</label>
+                        <input type="file" id="orderImages" accept="image/*" multiple>
+                        <div id="imagePreviewContainer" class="image-preview-grid"></div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="customerPhone">رقم الهاتف</label>
-                        <input type="tel" id="customerPhone" autocomplete="tel" maxlength="20" placeholder="مثال: 0912345678">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="customerCity">المدينة</label>
-                        <input type="text" id="customerCity" autocomplete="address-level2" maxlength="50">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="customerNotes">ملاحظات</label>
-                        <textarea id="customerNotes" rows="2" maxlength="500" placeholder="أي ملاحظات إضافية..."></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="productDesc">المنتجات (وصف)</label>
-                        <textarea id="productDesc" rows="2" maxlength="1000" placeholder="وصف المنتجات..."></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="purchasePrice">سعر الشراء (للمنتجات) *</label>
-                        <input type="number" id="purchasePrice" step="0.01" min="0" required aria-required="true" placeholder="0.00">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="sellingPrice">سعر البيع (للزبون) *</label>
-                        <input type="number" id="sellingPrice" step="0.01" min="0" required aria-required="true" placeholder="0.00">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="deliveryCost">مصاريف التوصيل</label>
-                        <input type="number" id="deliveryCost" step="0.01" min="0" value="0" placeholder="0">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="orderImages">صور المنتج (حتى 5 صور، 2MB لكل صورة)</label>
-                        <input type="file" id="orderImages" accept="image/*" multiple aria-describedby="images-help">
-                        <small id="images-help" style="opacity:0.7; display:block; margin-top:4px;">الصيغ المدعومة: JPG, PNG, GIF</small>
-                        <div id="imagePreviewContainer" class="image-preview-grid" role="region" aria-label="معاينة الصور"></div>
-                    </div>
-                    
-                    <button type="submit" class="btn-primary-3d" aria-label="حفظ الطلب">
-                        <i class="fas fa-save" aria-hidden="true"></i> حفظ الطلب
-                    </button>
+                    <button type="submit" class="btn-primary-3d">حفظ الطلب</button>
                 </form>
-            </section>
+            </div>
         </main>
     </div>
 
-    <!-- Image Modal -->
-    <div id="imageModal" class="modal" role="dialog" aria-modal="true" aria-label="عرض الصورة">
-        <span class="close-modal" role="button" tabindex="0" aria-label="إغلاق">&times;</span>
-        <img class="modal-content" id="modalImage" alt="صورة مكبرة">
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage">
     </div>
 
     <script src="script.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => {
-                        console.log('SW registered:', reg);
-                        reg.addEventListener('updatefound', () => {
-                            const newWorker = reg.installing;
-                            newWorker.addEventListener('statechange', () => {
-                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    if (confirm('تحديث جديد متاح! تحديث الصفحة؟')) {
-                                        window.location.reload();
-                                    }
-                                }
-                            });
-                        });
-                    })
-                    .catch(err => console.error('SW registration failed:', err));
-            });
+            navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.error('SW failed', err));
         }
     </script>
 </body>
-  </html>
+</html>
